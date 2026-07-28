@@ -10,9 +10,12 @@ Each top-level folder is one skill. Drop the ones you want into `~/.claude/skill
 
 ```bash
 git clone https://github.com/MathCaz/claude-skills.git
-cp -R claude-skills/notes-M ~/.claude/skills/            # copy the ones you want
-# …or symlink a skill so `git pull` keeps it current (repeat per skill):
-ln -s "$(pwd)/claude-skills/notes-M" ~/.claude/skills/
+# copy the ones you want (repeat per skill):
+cp -R claude-skills/notes-M       ~/.claude/skills/
+cp -R claude-skills/html-report-M ~/.claude/skills/
+# …or symlink instead so `git pull` keeps them current:
+ln -s "$(pwd)/claude-skills/notes-M"       ~/.claude/skills/
+ln -s "$(pwd)/claude-skills/html-report-M" ~/.claude/skills/
 ```
 
 Restart Claude Code (or start a new session) and the skills are available. Invoke an explicit one with `/<skill-name>`; the auto-invoked ones fire on their own when their triggers match.
