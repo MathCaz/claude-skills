@@ -10,9 +10,9 @@ Each top-level folder is one skill. Drop the ones you want into `~/.claude/skill
 
 ```bash
 git clone https://github.com/MathCaz/claude-skills.git
-cp -R claude-skills/notes-M ~/.claude/skills/       # copy the ones you want
-# …or symlink the whole set so `git pull` keeps them current:
-ln -s "$(pwd)/claude-skills"/*-M ~/.claude/skills/
+cp -R claude-skills/notes-M ~/.claude/skills/            # copy the ones you want
+# …or symlink a skill so `git pull` keeps it current (repeat per skill):
+ln -s "$(pwd)/claude-skills/notes-M" ~/.claude/skills/
 ```
 
 Restart Claude Code (or start a new session) and the skills are available. Invoke an explicit one with `/<skill-name>`; the auto-invoked ones fire on their own when their triggers match.
@@ -37,7 +37,14 @@ Relentlessly interviews you about a plan, design, or decision — one question a
 
 The backbone skill. Each topic becomes a self-contained folder — `<parent>/<YYYY-MM-DD>-<slug>/<slug>-notes.md` plus any side artifacts (reports, exports, diagrams). The notes file is **curated, not a transcript**: it captures decisions, rationale, ruled-out options and open flags, and applies collapse/supersession/pivot rules on every update so it stays a clean deliverable you could derive a PRD or summary from. Survives `/compact`, session end, and multi-day work.
 
-> Several other skills here (`grill-me-M`, `pre-compact`) delegate their file mechanics to this one.
+> Several other skills here (`grill-me-M`, `pre-compact`, `html-report-M`) delegate their file mechanics to this one.
+
+### `html-report-M` — findings as a self-contained HTML report
+**Invoke:** `/html-report-M [title]`, or auto when you ask for a "report" / "dashboard"
+
+Turns findings, analysis, or data into **one self-contained HTML file** — all CSS/JS inline, images as data URIs, so it opens offline and drops into a claude.ai Artifact unchanged. Responsive and theme-aware (light/dark). Saves locally so you can version it in git (into the active `notes-M` topic folder if one is open, else wherever you say), then offers to publish a shareable claude.ai **Artifact** replica for non-technical stakeholders (PO, leadership) — same file, so the link stays stable across edits.
+
+> Local, versionable deliverable first; optional shareable copy second. (For throwaway "just make this terminal output readable" HTML, that's a separate, disposable-by-design skill.)
 
 ### `handoff-M` — pass work to another agent
 **Invoke:** `/handoff-M full <focus>` or `/handoff-M topic <description>`
@@ -72,14 +79,15 @@ Style and structure rules for Claude-written SQL: layout, aliasing (descriptive 
 ## How they fit together
 
 ```
-grill-me-M ──delegates files──► notes-M ◄──checkpoints into── pre-compact
-                                   ▲
-skill-M (author any of these)      │ (durable topic folders)
-sql-style-M (auto on SQL)          │
-handoff-M (temp doc, hand to another agent)
+grill-me-M    ──delegates files──►  notes-M  ◄──checkpoints into── pre-compact
+html-report-M ──saves artifacts──►    ▲
+                                      │ (durable topic folders)
+skill-M  (author any of these)        │
+sql-style-M  (auto on SQL)            │
+handoff-M  (temp doc, hand to another agent)
 ```
 
-`notes-M` is the shared substrate; the interview and compact skills write through it. `handoff-M` deliberately writes *outside* your workspace (temp) since it targets a different agent.
+`notes-M` is the shared substrate; the interview, compact, and report skills all write through it. `handoff-M` deliberately writes *outside* your workspace (temp) since it targets a different agent.
 
 ## Credits
 
