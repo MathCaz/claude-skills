@@ -5,11 +5,11 @@ when_to_use: User is about to /compact or end the session and wants state saved 
 argument-hint: "<what you want to do next>"
 ---
 
-# Compact prep + come-back prompt (compact-M)
+# Compact prep + come-back prompt (pre-compact)
 
 Two deliverables, in order: (1) save the full session state to a durable file, (2) print a self-sufficient come-back prompt the user can paste to resume. This skill does NOT run `/compact` — the user runs it after.
 
-Distinct from `handoff-M full` (which briefs a *fresh* agent, temp doc only). Here the point is resuming *this* line of work after compaction/session-restart, with the user's next task driving it.
+This is the only whole-session save: `handoff-M` now hands off a single topic and sends whole-session requests here. The point is resuming *this* line of work after compaction/session-restart — or in a fresh agent — with the user's next task driving it.
 
 ## Step 1 — Save full state (durable)
 

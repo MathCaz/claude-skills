@@ -50,25 +50,25 @@ Turns findings, analysis, or data into **one self-contained HTML file** — all 
 > Local, versionable deliverable first; optional shareable copy second. (For throwaway "just make this terminal output readable" HTML, that's a separate, disposable-by-design skill.)
 
 ### `handoff-M` — pass work to another agent
-**Invoke:** `/handoff-M full <focus>` or `/handoff-M topic <description>`
+**Invoke:** `/handoff-M <topic description>`
 
-Writes a handoff document (to the OS temp dir, never your workspace) so a *different* agent can pick up. Two modes: `full` compacts the entire conversation for a fresh agent taking over (this session usually ends); `topic` extracts just one sub-thread — a bug you spotted on the side, a tangent worth its own agent — while you keep working here. It references PRDs/commits/issues by path rather than duplicating them.
+Writes a handoff document (to the OS temp dir, never your workspace) for **one sub-thread** of the conversation — a bug you spotted on the side, a tangent worth its own agent — so a *different* agent can pick it up while you keep working here. It references PRDs/commits/issues by path rather than duplicating them. Whole-session saves belong to `pre-compact`.
 
-> `full` = "someone else takes over." `topic` = "spin this side-thing off, I'll stay on the main thread."
+> "Spin this side-thing off, I'll stay on the main thread."
 
 ### `pre-compact` — checkpoint before `/compact`
 **Invoke:** `/pre-compact <what you want to do next>`
 
 The ritual before you compact or close a session. Saves the full resume state durably (into the active `notes-M` topic if one is open, else a temp file), then prints a **self-sufficient, ready-to-paste "come-back prompt"** — goal, current state, load-bearing decisions, gotchas, and your sharpened next task — so a post-compact (or next-day) agent resumes cleanly with no re-litigating. It does *not* run `/compact` — you do that after.
 
-> Distinct from `handoff-M full`: that briefs a *fresh* agent; this resumes *your own* line of work.
+> The only whole-session save. `handoff-M` hands off a single topic; this resumes *your own* line of work.
 
 ### `skill-M` — author well-structured skills
-**Invoke:** `/skill-M`, or auto when you're building/refining a skill
+**Invoke:** `/skill-M`, or auto when you're drafting or reviewing a skill
 
-A meta-skill: everything about writing good Claude Code skills — frontmatter fields (`description`, `disable-model-invocation`, `paths`, `context: fork`, `allowed-tools`, …), invocation control, dynamic context injection with `` !`command` ``, string substitutions, performance/character-budget tips, and a final checklist. Use it to create a new skill or tighten an existing one.
+A short checklist to run before saving a skill: who invokes it, a narrow description that matches that setting, length, dead references, accidental shell injection. For field-by-field reference it points to the official docs; for evals and trigger tuning it points to Anthropic's `skill-creator`.
 
-> The skill that builds skills. Start here if you're new to authoring them.
+> The checklist, not the manual.
 
 ### `sql-style-M` — consistent SQL, Snowflake-flavoured
 **Invoke:** auto-applies to `**/*.sql`, `dbt_project.yml`, and `dagster/**/*.py`
