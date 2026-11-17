@@ -1,12 +1,12 @@
 # claude-skills
 
-A small, curated set of [Claude Code](https://code.claude.com/docs/en/skills) **skills** I use daily — for note-taking that survives `/compact`, stress-testing plans, handing work between agents, authoring new skills, and keeping SQL consistent.
+A small, curated set of [Claude Code](https://code.claude.com/docs/en/skills) **skills** I use daily — for note-taking that survives `/compact`, stress-testing plans, handing work between agents, step-by-step learning, auditing numeric documents, retros on what went wrong, authoring new skills, and keeping SQL consistent.
 
 Skills are folders of Markdown that Claude Code loads on demand: only each skill's `name` + `description` sit in context until it's triggered, then the full `SKILL.md` loads. Cheap to keep installed, powerful when they fire.
 
 ## Install
 
-Each top-level folder is one skill. Drop the ones you want into `~/.claude/skills/`:
+Each top-level folder is one skill (`agents/` holds the one agent `retro` needs). Drop the ones you want into `~/.claude/skills/`:
 
 ```bash
 git clone https://github.com/MathCaz/claude-skills.git
@@ -76,6 +76,46 @@ A short checklist to run before saving a skill: who invokes it, a narrow descrip
 Style and structure rules for Claude-written SQL: layout, aliasing (descriptive initials, never single letters), clause order, CTE conventions (source CTEs, `_cte` suffix, numbered sectioning), JOIN formatting, `WHERE 1=1` neutral-element prefixes, audit-column lineage naming, and a Snowflake section (`QUALIFY`, `IFF`, `* EXCLUDE`, `HASH` surrogate keys). General rules are dialect-neutral; the Snowflake section is clearly fenced off so it's easy to swap for another warehouse.
 
 > Vendor-neutral in the general section; the Snowflake-specific rules are opt-out.
+
+### `stepwise-M` — learn a procedure one step at a time
+**Invoke:** `/stepwise-M <what to walk through>`, or auto on "guide me step by step"
+
+Breaks a procedure into T steps, sends one per message with an `N/T` counter, and waits for `next`. Every step carries its why and a "how you know it worked". Keywords: `curious` (short deep dive on the current step), `recap`, `plan`, `back`, `skip`.
+
+> You set the pace; Claude holds the map.
+
+### `audit-prouve-M` — audit, fix, then prove every fix landed (French)
+**Invoke:** `/audit-prouve-M <file> <sections>`
+
+For long documents full of numbers (reports, financial models). Parallel read-only auditors on a frozen snapshot, each returning a table that includes the exact wrong string. Fixes go through a throwaway Python script that asserts every anchor before writing. Then every reported wrong string is replayed against the file, so half-fixes (corrected in the table, left in the prose) can't hide.
+
+> "Did the right value arrive?" is not enough — check the old one left.
+
+### `readable-M` — make a long terminal answer readable
+**Invoke:** `/readable-M`, or auto on "make this readable"
+
+Renders the last long answer as a temporary, self-contained HTML page with numbered `[N]` sections and a table of contents, then opens it. Files are prefixed `temp-` and saved outside your working tree, so they're easy to clean up.
+
+> Disposable by design; `html-report-M` is the durable one.
+
+### `clipboard-M` — put it straight in the clipboard
+**Invoke:** `/clipboard-M <file>`, or auto on "copy to clipboard"
+
+Pipes a file, text or command output into `pbcopy` and confirms the line count, instead of printing a wall of text to copy by hand. macOS; Linux fallbacks noted.
+
+### `jira-formatting` — Jira descriptions that render
+**Invoke:** auto when writing a Jira issue or comment in Markdown through the Atlassian MCP
+
+Three rules: real newlines (never `\n`), standard Markdown, clear sections.
+
+### `retro` + `garden` — turn frustrations into permanent fixes
+**Invoke:** `/retro <what bothered you>` (user-only) · `/garden` weekly (user-only)
+
+`retro` hands your complaint and the session transcript to the read-only `retro-analyst` agent, which proposes **one** fix at the strongest layer that works (hook > skill > agent > CLAUDE.md > your own process). Nothing is applied without your yes; every retro is logged. `garden` reviews that log plus your CLAUDE.md, skills and agents weekly: repeats, duplicates, stale rules, contradictions.
+
+**Setup:** copy `agents/retro-analyst.md` to `~/.claude/agents/`, and create `~/.claude/retro/log.md` with a `## Entries` heading (put your entry template above it).
+
+> Retro fixes one incident; garden keeps the whole rule set small.
 
 ---
 
