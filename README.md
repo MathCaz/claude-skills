@@ -36,16 +36,16 @@ Relentlessly interviews you about a plan, design, or decision — one question a
 > Use it when you catch yourself saying "I think the plan is fine" — it finds the parts that aren't.
 
 ### `notes-M` — persistent, distilled notes per topic
-**Invoke:** auto-fires on any multi-step topic; or `/notes-M`
+**Invoke:** `/notes-M <topic>`, or auto on "take notes" / a topic that runs beyond ~5 turns
 
 The backbone skill. Each topic becomes a self-contained folder — `<parent>/<YYYY-MM-DD>-<slug>/<slug>-notes.md` plus any side artifacts (reports, exports, diagrams). The notes file is **curated, not a transcript**: it captures decisions, rationale, ruled-out options and open flags, and applies collapse/supersession/pivot rules on every update so it stays a clean deliverable you could derive a PRD or summary from. Survives `/compact`, session end, and multi-day work.
 
 > Several other skills here (`grill-me-M`, `pre-compact`, `html-report-M`) delegate their file mechanics to this one.
 
 ### `html-report-M` — findings as a self-contained HTML report
-**Invoke:** `/html-report-M [title]`, or auto when you ask for a "report" / "dashboard"
+**Invoke:** `/html-report-M [title]`, or auto when you ask for an "HTML report" / "write this up as HTML"
 
-Turns findings, analysis, or data into **one self-contained HTML file** — all CSS/JS inline, images as data URIs, so it opens offline and drops into a claude.ai Artifact unchanged. Responsive and theme-aware (light/dark). Saves locally so you can version it in git (into the active `notes-M` topic folder if one is open, else wherever you say), then offers to publish a shareable claude.ai **Artifact** replica for non-technical stakeholders (PO, leadership) — same file, so the link stays stable across edits.
+Turns findings, analysis, or data into **one self-contained HTML file** — all CSS/JS inline, images as data URIs, so it opens offline and drops into a claude.ai Artifact unchanged. Responsive and theme-aware (light/dark). Saves locally so you can version it in git (into the active `notes-M` topic folder if one is open, else wherever you say), then offers to publish a shareable claude.ai **Artifact** replica for non-technical stakeholders (PO, leadership), with a one-line warning first if the content looks private — same file, so the link stays stable across edits.
 
 > Local, versionable deliverable first; optional shareable copy second. (For throwaway "just make this terminal output readable" HTML, that's a separate, disposable-by-design skill.)
 

@@ -1,7 +1,7 @@
 ---
 name: html-report-M
-description: Generate a self-contained HTML report (dashboard, analysis write-up, results summary, status report) saved locally so it can be versioned in GitHub, with an optional shareable claude.ai Artifact replica for non-technical stakeholders (PO, leadership). Use whenever the user asks for an "HTML report", "report", "dashboard", "visual summary", "write this up as HTML", or wants findings/data presented as a viewable page.
-when_to_use: User asks to produce an HTML report/dashboard/visual summary, or to turn findings, analysis, or data into a shareable viewable page.
+description: Generate a self-contained HTML file (analysis write-up, results summary, status page) saved locally so it can be versioned in GitHub, then offer a claude.ai Artifact copy for non-technical stakeholders (PO, leadership). Use when the user asks for an "HTML report", "HTML page", "write this up as HTML", or wants findings saved as an HTML file in their repo. Not for an editable doc (docs skill), a live data dashboard (Artifact Dashboard type), or a temporary view of the last answer (readable-M).
+when_to_use: User wants analysis or data turned into a versionable, self-contained HTML file, optionally shared as an Artifact.
 argument-hint: "[report title or topic]"
 ---
 
@@ -40,7 +40,8 @@ After the local file is saved, ALWAYS ask:
 
 > "Also publish a shareable copy as a claude.ai Artifact (for non-technical folks — PO, stakeholders)?"
 
-- **If yes** → publish the SAME file via the `Artifact` tool (load **artifact-design** first if not already). Set a matching `<title>`, a one-sentence `description`, and a stable `favicon` emoji. Return the artifact URL to the user, noting it is private until they share it.
+- If the content looks private or personal, put a one-line warning in the question itself.
+- **If yes** → publish the SAME file via the `Artifact` tool (load **artifact-design** first if not already). Set a matching `<title>`, a one-sentence `description`, and a one-word `icon` (e.g. `chart`). Return the artifact URL to the user, noting it is private until they share it.
 - **If no** → stop after the local save.
 - On later edits: re-save the local file first, then redeploy to the same Artifact URL (same file path) so the shared link stays stable.
 
